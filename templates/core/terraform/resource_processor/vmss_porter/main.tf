@@ -56,7 +56,8 @@ resource "azurerm_user_assigned_identity" "vmss_msi" {
   name                = "id-vmss-${var.tre_id}"
   location            = var.location
   resource_group_name = var.resource_group_name
-  lifecycle { ignore_changes = [tags] }
+  tags                = local.tre_core_tags
+  #lifecycle { ignore_changes = [tags] }
 }
 
 resource "azurerm_linux_virtual_machine_scale_set" "vm_linux" {
@@ -65,6 +66,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "vm_linux" {
   location            = var.location
   resource_group_name = var.resource_group_name
   upgrade_mode        = "Automatic"
+  tags                = local.tre_core_tags
 
   extension {
     auto_upgrade_minor_version = false
@@ -136,7 +138,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "vm_linux" {
     }
   }
 
-  lifecycle { ignore_changes = [tags] }
+  #lifecycle { ignore_changes = [tags] }
 }
 
 resource "azurerm_role_assignment" "vmss_acr_pull" {
